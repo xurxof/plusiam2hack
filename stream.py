@@ -9,7 +9,7 @@ import cv2
 from mss import mss
 from PIL import Image
 import numpy as np
-
+from getSolutions import getSolutions
 
 
 # training part
@@ -50,7 +50,7 @@ def getMatrix(model, im):
 					continue
 				cv2.putText(out,string,(x,y+h),0,1,(0,255,0))
 				#if (string == "2"):
-				print (round(x/xbin), round(y/ybin), string)
+				#    print (round(x/xbin), round(y/ybin), string)
 				Matrix[round(y/ybin)][round(x/xbin)] = integer
 	# cv2.imshow('im',im)
 	# cv2.imshow('out',out)
@@ -70,14 +70,15 @@ while True:
 	# to have a maximum width of 400 pixels
 	# frame = vs.read()
 
-	original = sct.grab(bounding_box)
-	frame = np.array(original)
-	frame = imutils.resize(frame, width=w)
+	captured = sct.grab(bounding_box)
+	original = np.array(captured)
+	
+	original = imutils.resize(original, width=w)
 
 	#  center = (w // 2, h // 2)
 	# M = cv2.getRotationMatrix2D(center, 180, 1.0)
 
-	frame = cv2.GaussianBlur(frame, (3, 3), 0)
+	frame = cv2.GaussianBlur(original, (3, 3), 0)
 	(thresh,frame) = cv2.threshold(frame, 127, 255, cv2.THRESH_BINARY)	
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	(thresh,frame) = cv2.threshold(frame, 254, 255, cv2.THRESH_BINARY)	
@@ -93,11 +94,23 @@ while True:
 	# show the frame
 	frame = frame[5:600, 10:700]
 	
-	print(getMatrix(model, frame))
+	matrix = getMatrix(model, frame)
+	solutions = getSolutions (matrix)
+
+	
+	solution = solutions[0]
+	for coord in solution:
+		string = str (matrix[coord[0]][coord[1]])
+		x = int((coord[1])* (400/6))+15
+		y = int((coord[0]+1)* (450/10))
+		print(x,y)
+		cv2.putText(original,string,(x,y),
+			0,1.5,(0,0,0),3)
+
+	cv2.imshow("Frame", original)
 	
 	## 
 
-	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):

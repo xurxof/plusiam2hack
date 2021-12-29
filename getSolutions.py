@@ -32,11 +32,13 @@ def getSolutions(matrix:[[int]]):
             result.extend(s)
     return result
 
-Matrix = [[random.randint(1, 9) for x in range(6)] for y in range(10)] 
-Matrix[0][2] = Matrix[0][0]+Matrix[0][1]
-Matrix[1][1] = Matrix[0][0]+Matrix[0][1]
-print(Matrix)
-print(startSolutions(Matrix, (0,0)))
+    
+if __name__ == "__main__":
+    Matrix = [[random.randint(1, 9) for x in range(6)] for y in range(10)] 
+    Matrix[0][2] = Matrix[0][0]+Matrix[0][1]
+    Matrix[1][1] = Matrix[0][0]+Matrix[0][1]
+    print(Matrix)
+    print(startSolutions(Matrix, (0,0)))
 
 
-print(getSolutions(Matrix))
+    print(getSolutions(Matrix))
