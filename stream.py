@@ -36,7 +36,7 @@ while True:
 	frame = cv2.GaussianBlur(frame, (3, 3), 0)
 	(thresh,frame) = cv2.threshold(frame, 127, 255, cv2.THRESH_BINARY)	
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	(thresh,frame) = cv2.threshold(frame, 250, 255, cv2.THRESH_BINARY)	
+	(thresh,frame) = cv2.threshold(frame, 254, 255, cv2.THRESH_BINARY)	
 	
 	# frame = cv2.Canny(frame, 30, 30)
 	
@@ -47,7 +47,7 @@ while True:
 	#cv2.putText(frame, ts, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
 		# 0.35, (0, 0, 255), 1)
 	# show the frame
-	frame = frame[10:600, 10:700]
+	frame = frame[5:600, 10:700]
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 	# if the `q` key was pressed, break from the loop

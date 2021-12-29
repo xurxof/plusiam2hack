@@ -7,16 +7,17 @@ im = cv2.imread('Frame_screenshot_29.12.2021.png')
 im3 = im.copy()
 
 gray = cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
-blur = cv2.GaussianBlur(gray,(5,5),0)
-thresh = cv2.adaptiveThreshold(blur,255,1,1,11,2)
+blur = cv2.GaussianBlur(gray,(1,1),0)
+thresh = blur # cv2.adaptiveThreshold(blur,255,1,1,11,2)
 
 #################      Now finding Contours         ###################
 
-contours,hierarchy = cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+contours,hierarchy = cv2.findContours(thresh,
+    cv2.RETR_LIST,cv2.CHAIN_APPROX_NONE)
 
 samples =  np.empty((0,100))
 responses = []
-keys = [i for i in range(48,58)]
+keys = [i for i in range(18,58)]
 
 for cnt in contours:
     if cv2.contourArea(cnt)>50:
